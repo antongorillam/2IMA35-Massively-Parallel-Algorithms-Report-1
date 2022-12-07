@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 # import networkx as nx
 
 def get_key(item):
@@ -119,7 +121,7 @@ class Plotter:
                     plt.clf()
                     if cnt >= plot_num_machines:
                         break
-
+                        
             cnt = 0
             ax = plt.axes(projection='3d')
             ax.scatter3D(x, y, z, c=c, s=area)
@@ -286,7 +288,7 @@ class Plotter:
                 for j in range(len(clusters)):
                     if mst[i][0] in clusters[j]:
                         plt.plot(linex, liney, c=self.colors[j])
-            filename = self.file_loc + self.name_dataset + '_clusters'
+            filename = self.file_loc + 'first_test' + '_clusters'
             plt.savefig(filename, dpi='figure')
             plt.clf()
         else:
@@ -332,7 +334,25 @@ class Plotter:
                 plt.plot(linex, liney, self.colors[i % len(self.colors)])
             plt.show()
 
-    def plot_cluster(self, yhat, final, vertex_coordinates):
+    def plot_vertex_coordinates(self, vertex_coordinates, labels):
+        print(f"vertex_coordinates: {vertex_coordinates[:,1].shape}, labels: {labels.shape}")
+        data = {
+            "x" : vertex_coordinates[:,0],
+            "y" : vertex_coordinates[:,1],
+            "label" : labels
+        }
+        df = pd.DataFrame(data)
+        print(df)
+        plt.figure()
+        palette = sns.color_palette("deep", 10)
+        sns.scatterplot(data=df, x="x", y="y", hue="label", palette=palette)
+        sns.set_style("darkgrid")
+        plt.grid()
+        file_name = self.file_loc + "visualize_ground_truth.png"
+        plt.savefig(file_name)
+        
+    def plot_cluster(self, yhat, final, vertex_coordinates, labels):
+        
         clusters = set()
         for v in yhat:
             clusters.add(v)
@@ -343,11 +363,13 @@ class Plotter:
         y = []
         n = len(vertex_coordinates)
         c = ['k'] * n
-        area = [0.1] * n
+        area = [5] * n
         for x_c, y_c in vertex_coordinates:
             x.append(float(x_c))
             y.append(float(y_c))
         plt.scatter(x, y, c=c, s=area)
+        filename = self.file_loc + "scatter_plot"
+        plt.savefig("scatter_plot", dpi='figure')
         for i in range(n):
             cluster = yhat[i]
             color = self.colors[0]
@@ -359,6 +381,6 @@ class Plotter:
             liney = [y[i], y[final[i]]]
             plt.plot(linex, liney, color)
         # plt.show()
-        filename = self.file_loc + self.name_dataset + str(self.round)
+        filename = self.file_loc + "2d_cluster"
         plt.savefig(filename, dpi='figure')
         plt.clf()
