@@ -18,16 +18,16 @@ def main():
     data = dl.loadData()
     new_distances, distances, coordinates, labels = data["new_distances"], data["distances"], data["coordinates"], data["labels"]
     vertex_dict = dl.constructGraph(new_distances)
-    print(vertex_dict) 
-    # print(distances)
-
+    print(c)
     adjencency_list = ac.get_nearest_neighbours(
         V=vertex_dict, 
         k=5, 
         leaf_size=2, 
         buckets=True)
-
+    
     plotter = Plotter(vertex_coordinates=coordinates, name_dataset="MNIST", file_loc="images/")
+    plotter.plot_vertex_coordinates(coordinates, labels)
+    plotter.plot_vertex_coordinates(coordinates, labels)
     # runs, graph, yhats, contracted_leader, mst = \
     #     ac.affinity_clustering(adjencency_list, num_clusters=10)
     # plotter.plot_vertex_coordinates(coordinates, labels)

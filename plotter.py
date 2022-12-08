@@ -349,6 +349,7 @@ class Plotter:
         sns.set_style("darkgrid")
         plt.grid()
         file_name = self.file_loc + "visualize_ground_truth.png"
+        plt.show()
         plt.savefig(file_name)
         
     def plot_cluster(self, yhat, final, vertex_coordinates, labels):
