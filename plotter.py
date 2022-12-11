@@ -345,10 +345,11 @@ class Plotter:
         num_clusters = len(set(labels))
         palette = sns.color_palette("deep", num_clusters)
         sns.scatterplot(data=df, x="x", y="y", hue="label", palette=palette)
-        sns.set_style("darkgrid")
+        # sns.set_style("darkgrid")
         plt.grid()
         file_name = self.file_loc + f"{name_prefic}_visualize_numclusters_{num_clusters}.png"
         plt.savefig(file_name)
+        plt.close("all")
         
     def plot_cluster(self, yhat, final, vertex_coordinates, labels):
         

@@ -33,8 +33,8 @@ def main():
     # plotter.plot_mst_2d(mst, intermediate=True, plot_cluster=True, num_clusters=10)
     print(f"runs: {runs}")
     for i in range(0, 20):
-        plotter.plot_vertex_coordinates(coordinates, np.array(yhats[i]), f"run_{i}_clustering")
-    # print(f"graph: {np.array(graph).shape}")
+        plotter.plot_vertex_coordinates(coordinates, np.array(yhats[i]), f"run_{str(i).zfill(2)}_clustering")
+    # print(f"graph: {np.array(graph).shape}")  
     # print(f"yhats: {np.array(yhats).shape}")
     # print(f"contracted_leader: {np.array(contracted_leader)}")
     # print('Graph size: ', len(graph), graph)
