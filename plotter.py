@@ -334,22 +334,20 @@ class Plotter:
                 plt.plot(linex, liney, self.colors[i % len(self.colors)])
             plt.show()
 
-    def plot_vertex_coordinates(self, vertex_coordinates, labels):
-        print(f"vertex_coordinates: {vertex_coordinates[:,1].shape}, labels: {labels.shape}")
+    def plot_vertex_coordinates(self, vertex_coordinates, labels, name_prefic):
         data = {
             "x" : vertex_coordinates[:,0],
             "y" : vertex_coordinates[:,1],
             "label" : labels
         }
         df = pd.DataFrame(data)
-        print(df)
         plt.figure()
-        palette = sns.color_palette("deep", 10)
+        num_clusters = len(set(labels))
+        palette = sns.color_palette("deep", num_clusters)
         sns.scatterplot(data=df, x="x", y="y", hue="label", palette=palette)
         sns.set_style("darkgrid")
         plt.grid()
-        file_name = self.file_loc + "visualize_ground_truth.png"
-        plt.show()
+        file_name = self.file_loc + f"{name_prefic}_visualize_numclusters_{num_clusters}.png"
         plt.savefig(file_name)
         
     def plot_cluster(self, yhat, final, vertex_coordinates, labels):
