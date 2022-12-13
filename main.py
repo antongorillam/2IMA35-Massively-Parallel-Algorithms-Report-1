@@ -1,11 +1,13 @@
 from dataloader import Dataloader
 from plotter import Plotter
+from pathlib import Path
+import os
 import affinityclustering as ac
 import numpy as np
 
 IMG_DIM = 28
 N_SAMPLES = 1000
-NUMPY_ARRAY_FOLDER = "numpy_arrays/"
+NUMPY_ARRAY_FOLDER = "numpy_arrays/" + f"{N_SAMPLES}_samples"
 
 def main():
     """
@@ -13,15 +15,13 @@ def main():
     labels ~ (SAMPLE_SIZE,)
     """
     dl = Dataloader()
-    # dl.computeDistanceMatrix()
-    # dl.getDistanceMatrix()
     data = dl.loadData()
     new_distances, distances, coordinates, labels = data["new_distances"], data["distances"], data["coordinates"], data["labels"]
-    vertex_dict = dl.constructGraph(new_distances)
+    vertex_dict = dl.constructGraph(distances)
     
     adjencency_list = ac.get_nearest_neighbours(
         V=vertex_dict, 
-        k=5, 
+        k=10, 
         leaf_size=2, 
         buckets=True)
     
@@ -29,15 +29,10 @@ def main():
     plotter.plot_vertex_coordinates(coordinates, labels, "ground_truth")
     runs, graph, yhats, contracted_leader, mst = \
         ac.affinity_clustering(adjencency_list, num_clusters=10)
-    # plotter.plot_cluster(yhats[runs - 1], mst, coordinates, labels)
-    # plotter.plot_mst_2d(mst, intermediate=True, plot_cluster=True, num_clusters=10)
+
     print(f"runs: {runs}")
-    for i in range(0, 20):
-        plotter.plot_vertex_coordinates(coordinates, np.array(yhats[i]), f"run_{str(i).zfill(2)}_clustering")
-    # print(f"graph: {np.array(graph).shape}")  
-    # print(f"yhats: {np.array(yhats).shape}")
-    # print(f"contracted_leader: {np.array(contracted_leader)}")
-    # print('Graph size: ', len(graph), graph)
+    plotter.plot_vertex_coordinates(coordinates, np.array(contracted_leader), f"run_testlol_clustering")
+    
 
 if __name__ == '__main__':
     main()  

@@ -127,9 +127,9 @@ def affinity_clustering(adj, num_clusters=3):
     leaders = []
     graph = deepcopy(adj)
     rdd = sc.parallelize(adj)
-
+    
     i = 0
-    imax = 20
+    imax = 200
     contracted_leader = [None] * len(adj)
     mst = [None] * len(adj)
     while i < imax:

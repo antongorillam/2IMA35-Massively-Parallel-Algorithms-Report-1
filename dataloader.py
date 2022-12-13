@@ -11,19 +11,21 @@ from plotter import Plotter
 import affinityclustering as ac
 
 IMG_DIM = 28
-N_SAMPLES = 1000
-NUMPY_ARRAY_FOLDER = "numpy_arrays/"
+N_SAMPLES = 2500
+NUMPY_ARRAY_FOLDER = "numpy_arrays/" + str(N_SAMPLES) + "_samples" 
+IMAGE_FOLDER = "images/" + str(N_SAMPLES) + "_samples"
 
 class Dataloader():
 
-    def computeDistanceMatrix(self): 
+    def computeDistanceMatrix(self, show=False): 
         (train_X, train_y), _ = fashion_mnist.load_data()
         train_X, train_y = train_X[:N_SAMPLES], train_y[:N_SAMPLES]
 
-        # Visualisation
-        image_idx = np.random.randint(len(train_X))
-        plt.imshow(train_X[image_idx].reshape(IMG_DIM, IMG_DIM), cmap=plt.get_cmap('gray'))
-        plt.show()
+        if show:
+            # Visualisation
+            image_idx = np.random.randint(len(train_X))
+            plt.imshow(train_X[image_idx].reshape(IMG_DIM, IMG_DIM), cmap=plt.get_cmap('gray'))
+            plt.show()
 
         distances = np.zeros((N_SAMPLES,N_SAMPLES))
         for i, img_i in enumerate(train_X):
@@ -34,7 +36,7 @@ class Dataloader():
         np.save(f"{NUMPY_ARRAY_FOLDER}/distances.npy", distances)
         np.save(f"{NUMPY_ARRAY_FOLDER}/labels.npy", train_y)
 
-    def getDistanceMatrix(self, reduction_model="TSNE"):
+    def computeCoordiatesAndNewDistances(self, reduction_model="TSNE"):
         distances = np.load(f"{NUMPY_ARRAY_FOLDER}/distances.npy")
 
         if reduction_model == "MDS":
@@ -49,7 +51,7 @@ class Dataloader():
         for i, first in enumerate(coordinates):
             for j, second in enumerate(coordinates):
                 new_distances[i, j] = np.sqrt((first[0] - second[0])**2 + (first[1] - second[1])**2)
-        print(f"new_distances: {new_distances}")
+
         np.save(f"{NUMPY_ARRAY_FOLDER}/coordinates.npy", coordinates)
         np.save(f"{NUMPY_ARRAY_FOLDER}/new_distances.npy", new_distances)
 
@@ -73,3 +75,23 @@ class Dataloader():
             "new_distances" : np.load(f"{NUMPY_ARRAY_FOLDER}/new_distances.npy"),        
         }
         
+def generateData():
+    """
+    Run file to generate data
+    """
+    dl = Dataloader()
+    dl.computeDistanceMatrix()
+    dl.computeCoordiatesAndNewDistances()
+    data = dl.loadData()
+    new_distances, distances, coordinates, labels = data["new_distances"], data["distances"], data["coordinates"], data["labels"]
+    plotter = Plotter(vertex_coordinates=coordinates, name_dataset="MNIST", file_loc=IMAGE_FOLDER)
+    plotter.plot_vertex_coordinates(coordinates, labels, "ground_truth")
+
+if __name__ == '__main__':
+    # N_SAMPLES_LIST = [100, 250, 500, 1000, 2500]
+    # for n_samples in N_SAMPLES_LIST:
+    #     N_SAMPLES = n_samples
+    #     NUMPY_ARRAY_FOLDER = "numpy_arrays/" + str(N_SAMPLES) + "_samples" 
+    #     IMAGE_FOLDER = "images/" + str(N_SAMPLES) + "_samples"
+    #     generateData()
+    generateData()
