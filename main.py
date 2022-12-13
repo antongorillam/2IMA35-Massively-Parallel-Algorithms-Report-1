@@ -21,7 +21,7 @@ def main():
     
     adjencency_list = ac.get_nearest_neighbours(
         V=vertex_dict, 
-        k=10, 
+        k=10,
         leaf_size=2, 
         buckets=True)
     

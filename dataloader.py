@@ -1,6 +1,6 @@
 from email.mime import image
 from tkinter.messagebox import RETRY
-from tensorflow.keras.datasets import mnist, fashion_mnist
+#from tensorflow.keras.datasets import mnist, fashion_mnist
 from sklearn.preprocessing import normalize
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE, MDS
