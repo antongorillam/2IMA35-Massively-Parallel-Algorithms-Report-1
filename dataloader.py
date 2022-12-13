@@ -99,4 +99,5 @@ if __name__ == '__main__':
     #     NUMPY_ARRAY_FOLDER = "numpy_arrays/" + str(N_SAMPLES) + "_samples" 
     #     IMAGE_FOLDER = "images/" + str(N_SAMPLES) + "_samples"
     #     generateData()
-    generateData()
+    # generateData()
+    pass

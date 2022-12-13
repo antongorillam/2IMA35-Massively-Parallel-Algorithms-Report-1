@@ -348,8 +348,7 @@ class Plotter:
         plt.title(f"{name_prefic}_visualize_numclusters_{num_clusters}")
         plt.grid()
         
-        file_name = self.file_loc + f"/{name_prefic}_visualize_numclusters_{num_clusters}.png"
-        plt.show()
+        file_name = self.file_loc + f"/{name_prefic}_visualize_numclusters_{str(num_clusters).zfill(3)}.png"
         plt.savefig(file_name)
         plt.close("all")
         

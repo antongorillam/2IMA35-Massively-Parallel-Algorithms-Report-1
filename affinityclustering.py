@@ -129,7 +129,7 @@ def affinity_clustering(adj, num_clusters=3):
     rdd = sc.parallelize(adj)
     
     i = 0
-    imax = 200
+    imax = 20
     contracted_leader = [None] * len(adj)
     mst = [None] * len(adj)
     while i < imax:
