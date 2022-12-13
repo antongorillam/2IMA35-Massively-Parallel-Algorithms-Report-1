@@ -12,13 +12,17 @@ import affinityclustering as ac
 
 IMG_DIM = 28
 N_SAMPLES = 2500
-NUMPY_ARRAY_FOLDER = "numpy_arrays/" + str(N_SAMPLES) + "_samples" 
-IMAGE_FOLDER = "images/" + str(N_SAMPLES) + "_samples"
+dataset = "mnist"
+NUMPY_ARRAY_FOLDER = "numpy_arrays/" + dataset + "/" + str(N_SAMPLES) + "_samples"
+IMAGE_FOLDER = "images/" + dataset + "/" + str(N_SAMPLES) + "_samples"
 
 class Dataloader():
 
-    def computeDistanceMatrix(self, show=False): 
-        (train_X, train_y), _ = fashion_mnist.load_data()
+    def computeDistanceMatrix(self, show=False):
+        if dataset == "fashion_mnist":
+            (train_X, train_y), _ = fashion_mnist.load_data()
+        elif dataset == "mnist":
+            (train_X, train_y), _ = mnist.load_data()
         train_X, train_y = train_X[:N_SAMPLES], train_y[:N_SAMPLES]
 
         if show:
@@ -85,7 +89,7 @@ def generateData():
     dl.computeCoordiatesAndNewDistances()
     data = dl.loadData()
     new_distances, distances, coordinates, labels = data["new_distances"], data["distances"], data["coordinates"], data["labels"]
-    plotter = Plotter(vertex_coordinates=coordinates, name_dataset="MNIST", file_loc=IMAGE_FOLDER)
+    plotter = Plotter(vertex_coordinates=coordinates, name_dataset=dataset, file_loc=IMAGE_FOLDER)
     plotter.plot_vertex_coordinates(coordinates, labels, "ground_truth")
 
 if __name__ == '__main__':
