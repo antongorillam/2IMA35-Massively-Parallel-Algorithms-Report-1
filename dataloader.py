@@ -1,6 +1,6 @@
 from email.mime import image
 from tkinter.messagebox import RETRY
-#from tensorflow.keras.datasets import mnist, fashion_mnist
+from tensorflow.keras.datasets import mnist, fashion_mnist
 from sklearn.preprocessing import normalize
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE, MDS
@@ -67,12 +67,13 @@ class Dataloader():
         
         return vertex_dict
 
-    def loadData(self):
+    def loadData(self, numpy_array_folder=NUMPY_ARRAY_FOLDER):
+        print(f"Loading data from folder {numpy_array_folder}")
         return {
-            "distances" : np.load(f"{NUMPY_ARRAY_FOLDER}/distances.npy"),
-            "coordinates" : np.load(f"{NUMPY_ARRAY_FOLDER}/coordinates.npy"),
-            "labels" : np.load(f"{NUMPY_ARRAY_FOLDER}/labels.npy"),
-            "new_distances" : np.load(f"{NUMPY_ARRAY_FOLDER}/new_distances.npy"),        
+            "distances" : np.load(f"{numpy_array_folder}/distances.npy"),
+            "coordinates" : np.load(f"{numpy_array_folder}/coordinates.npy"),
+            "labels" : np.load(f"{numpy_array_folder}/labels.npy"),
+            "new_distances" : np.load(f"{numpy_array_folder}/new_distances.npy"),        
         }
         
 def generateData():
