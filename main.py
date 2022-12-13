@@ -31,15 +31,13 @@ def main():
         buckets=True)
     
     plotter = Plotter(vertex_coordinates=coordinates, name_dataset=dataset, file_loc=IMAGE_FOLDER)
-    plotter.plot_vertex_coordinates(coordinates, labels, "ground_truth")
     runs, graph, yhats, contracted_leader, mst = \
         ac.affinity_clustering(adjencency_list, num_clusters=10)
 
-    print(f"runs: {runs}")
     time_finish = time.perf_counter()
     duration = time_finish - time_start
-    print(f"Time: {duration:.2f}")
-    plotter.plot_vertex_coordinates(coordinates, np.array(contracted_leader), f"run_testlol_clustering")
+    print(f"Runs: {runs}, Time: {duration:.2f}")
+    plotter.plot_vertex_coordinates(coordinates, np.array(contracted_leader), f"run_testlol_clustering", show_legend=False)
 
     
 

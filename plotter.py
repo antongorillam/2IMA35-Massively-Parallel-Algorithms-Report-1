@@ -334,7 +334,7 @@ class Plotter:
                 plt.plot(linex, liney, self.colors[i % len(self.colors)])
             plt.show()
 
-    def plot_vertex_coordinates(self, vertex_coordinates, labels, name_prefic):
+    def plot_vertex_coordinates(self, vertex_coordinates, labels, name_prefic, show_legend=True):
         data = {
             "x" : vertex_coordinates[:,0],
             "y" : vertex_coordinates[:,1],
@@ -344,11 +344,12 @@ class Plotter:
         plt.figure()
         num_clusters = len(set(labels))
         palette = sns.color_palette("deep", num_clusters)
-        sns.scatterplot(data=df, x="x", y="y", hue="label", palette=palette)
+        sns.scatterplot(data=df, x="x", y="y", hue="label", palette=palette, legend=show_legend)
         plt.title(f"{name_prefic}_visualize_numclusters_{num_clusters}")
         plt.grid()
         
         file_name = self.file_loc + f"/{name_prefic}_visualize_numclusters_{num_clusters}.png"
+        plt.show()
         plt.savefig(file_name)
         plt.close("all")
         
