@@ -7,7 +7,7 @@ import numpy as np
 import time
 
 IMG_DIM = 28
-N_SAMPLES = 250
+N_SAMPLES = 100
 DATASET = "fashion_mnist"
 NUMPY_ARRAY_FOLDER = "numpy_arrays/" + DATASET + "/" + str(N_SAMPLES) + "_samples"
 IMAGE_FOLDER = "images/" + DATASET + "/" + str(N_SAMPLES) + "_samples"
